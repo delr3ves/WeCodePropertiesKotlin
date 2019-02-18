@@ -1,8 +1,10 @@
 package com.emaginalabs.wecodeproperties
 
-import io.kotlintest.*
 import io.kotlintest.properties.Gen
 import io.kotlintest.properties.forAll
+import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
+import io.kotlintest.shouldThrow
 import io.kotlintest.specs.ShouldSpec
 
 class PlayingWithLibrarySpec : ShouldSpec() {
