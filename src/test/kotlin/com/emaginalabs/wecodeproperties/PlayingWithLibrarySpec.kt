@@ -1,8 +1,8 @@
 package com.emaginalabs.wecodeproperties
 
-import io.kotlintest.fail
 import io.kotlintest.properties.forAll
-import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
+import io.kotlintest.shouldThrow
 import io.kotlintest.specs.ShouldSpec
 
 class PlayingWithLibrarySpec : ShouldSpec() {
@@ -17,30 +17,27 @@ class PlayingWithLibrarySpec : ShouldSpec() {
 
             should("allow us to modify the number of executions") {
                 // write a test in order to ensure the the number of executions
-                // Here, you'll find how to change the number of success executions: https://stackoverflow.com/a/38706052
+                // TIP: Check the paramters accepted by forAll to change the number of executions
             }
 
             should("make a test fail in order to see how shrink works") {
-                var failed = false
-                try {
+                val exception = shouldThrow<AssertionError> {
                     forAll { a: Int, b: Int ->
-                        // write a test that sometimes fail and add traces in order to know how the library tries to give you a clue about the failing data
-                        fail("Just fail")
+                        false
                     }
-                } catch (e: AssertionError) {
-                    failed = true
                 }
-                failed shouldBe true
+                exception shouldNotBe null
             }
 
-            should("fail when a generator is too restrictive") {
+            should("be extremely slow when a generator is too restrictive") {
                 // write a custom generator that is too restrictive to find enough values to run the tests.
-                // Tip: You can capture the error the same way the previous test :)
+                // Tip: Make your test execute just once in order to pass the test. Otherwise it'll last too much.
+                // Here you'll find how to implemente a custom generator: https://github.com/kotlintest/kotlintest/blob/master/doc/reference.md#custom-generators. Pay attention to filter method to implement a restrictive generator.
             }
 
-            should("fail when a generator is limited but not restrictive") {
+            should("not fail when a generator is limited but not restrictive") {
                 // write a custom generator that only generate a very limited range of values.
-                // Tip: You can use an already defined generator or just implement yours. I'll do mine :).
+                // Tip: You can use an already defined generator or just implement yours. I'll do mine :). Pay attention to map method to implement a non-restrictive generator.
             }
         }
     }
