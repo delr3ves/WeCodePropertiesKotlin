@@ -1,8 +1,8 @@
 package com.emaginalabs.wecodeproperties
 
-import io.kotlintest.fail
+import io.kotlintest.*
+import io.kotlintest.properties.Gen
 import io.kotlintest.properties.forAll
-import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 class PlayingWithLibrarySpec : ShouldSpec() {
@@ -10,37 +10,44 @@ class PlayingWithLibrarySpec : ShouldSpec() {
         "Playing with the library" {
             should("add logs to know how it executes") {
                 forAll { a: Int, b: Int ->
-                    // write test the whatever property about the sum but add logs to know the value of the received numbers
+                    println("Just executed the test with values [a: $a, b: $b]")
                     true
                 }
             }
 
             should("allow us to modify the number of executions") {
-                // write a test in order to ensure the the number of executions
-                // Here, you'll find how to change the number of success executions: https://stackoverflow.com/a/38706052
+                var executed = 0
+                val expectedExecutions = 10
+                forAll(iterations = expectedExecutions) { a: Int, b: Int ->
+                    executed += 1
+                    a + b == b + a
+                }
+                executed shouldBe expectedExecutions
             }
 
             should("make a test fail in order to see how shrink works") {
-                var failed = false
-                try {
+                val exception = shouldThrow<AssertionError> {
                     forAll { a: Int, b: Int ->
-                        // write a test that sometimes fail and add traces in order to know how the library tries to give you a clue about the failing data
-                        fail("Just fail")
+                        a < 5 || b < 7
                     }
-                } catch (e: AssertionError) {
-                    failed = true
                 }
-                failed shouldBe true
+                exception shouldNotBe null
             }
 
             should("fail when a generator is too restrictive") {
-                // write a custom generator that is too restrictive to find enough values to run the tests.
-                // Tip: You can capture the error the same way the previous test :)
+                forAll(iterations = 1, gena = Gen.int().filter { it > 10 && it < 15 }) { a: Int ->
+                    a > 10 && a < 15
+                }
             }
 
-            should("fail when a generator is limited but not restrictive") {
-                // write a custom generator that only generate a very limited range of values.
-                // Tip: You can use an already defined generator or just implement yours. I'll do mine :).
+            should("not fail when a generator is limited but not restrictive") {
+                fun rangeGenerator(a: Int, b: Int): Gen<Int> = Gen.int().map {
+                    val abs = Math.abs(it)
+                    (abs % (b - a)) + a
+                }
+                forAll(rangeGenerator(11, 15)) { a: Int ->
+                    a > 10 && a < 15
+                }
             }
         }
     }
