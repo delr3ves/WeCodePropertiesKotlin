@@ -1,7 +1,6 @@
 package com.emaginalabs.wecodeproperties
 
 import io.kotlintest.specs.ShouldSpec
-import io.kotlintest.shouldBe
 
 class WeCodePlaygroundSpec : ShouldSpec() {
 
@@ -10,16 +9,16 @@ class WeCodePlaygroundSpec : ShouldSpec() {
     init {
         "Sum properties" {
             should("keep the associative property") {
-                //TODO test the associative property
+                // TODO test the associative property
             }
             should("keep the commutative property") {
-                //TODO test the commutative property
+                // TODO test the commutative property
             }
             should("have an identity value") {
-                //TODO test the identity property
+                // TODO test the identity property
             }
             should("actually sum a couple numbers") {
-                //TODO test the sum
+                // TODO test the sum
             }
         }
     }
