@@ -1,5 +1,7 @@
 package com.emaginalabs.wecodeproperties
 
+import io.kotlintest.properties.Gen
+import io.kotlintest.properties.forAll
 import io.kotlintest.specs.ShouldSpec
 
 class FibonacciSpec : ShouldSpec() {
@@ -17,7 +19,9 @@ class FibonacciSpec : ShouldSpec() {
     init {
         "Fibonacci of n" {
             should("keep the most important property") {
-                // please, find the property and test it. The implementation of fibonacci is slow so you can check what happen with big numbers ;)
+                forAll(Gen.choose(0, 100)) { a: Int ->
+                    fibonacci(a) + fibonacci(a + 1) == fibonacci(a + 2)
+                }
             }
         }
     }
