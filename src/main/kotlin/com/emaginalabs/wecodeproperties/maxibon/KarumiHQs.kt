@@ -8,5 +8,4 @@ class KarumiHQs(val chat: Chat = ConsoleChat()) {
 
     fun openFridge(developers: List<Developer>) {
     }
-
 }
